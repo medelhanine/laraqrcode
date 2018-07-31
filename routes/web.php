@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 Auth::routes();
@@ -20,14 +20,15 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Auth::routes();
+//give the right to logged in people only
+Route::group(['middleware'=>'auth'],function(){
 
-Route::get('/home', 'HomeController@index');
-
-Route::resource('qrcodes', 'QrcodeController');
+    Route::resource('qrcodes', 'QrcodeController');
 
 Route::resource('roles', 'RoleController');
 
 Route::resource('transactions', 'TransactionController');
 
 Route::resource('users', 'UserController');
+
+});
