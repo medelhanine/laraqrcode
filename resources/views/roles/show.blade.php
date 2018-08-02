@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Role
+            Role : <b class="text-primary">{!! $role->name !!}</b>
         </h1>
         <h1>
             <a href="{!! route('roles.edit', [$role->id]) !!}" class='btn btn-primary pull-right'>Edit Role</a>

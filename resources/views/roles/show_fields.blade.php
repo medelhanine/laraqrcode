@@ -16,3 +16,6 @@
     <p>{!! $role->created_at->format('D d,M,Y') !!}</p>
 </div>
 
+<h3 class="text-center">List of {!! $role->name !!}s</h3>
+@include('users.table')
+

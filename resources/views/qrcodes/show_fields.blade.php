@@ -91,5 +91,13 @@
 
 </div>
 
+@if(Auth::user()->role_id <3 || $qrcode->user_id == Auth::user()->id)
+<div class="col-sm-12">
+        <h3 class="text-center text-danger">Transcations done on this QRCode</h3>
+        @include('transactions.table')
+</div>
+@endif
+
+
 
 

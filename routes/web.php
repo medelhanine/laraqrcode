@@ -31,4 +31,12 @@ Route::resource('transactions', 'TransactionController');
 
 Route::resource('users', 'UserController');
 
+Route::group(['middleware'=>'checkmoderator'],function(){
+    Route::get('/users','UserController@index')->name('users.index');
+});
+
+
+//only admins can access
+Route::resource('roles','RoleController')->middleware('checkadmin');
+
 });
