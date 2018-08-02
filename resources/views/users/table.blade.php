@@ -2,21 +2,29 @@
     <thead>
         <tr>
             <th>Name</th>
-        <th>Role Id</th>
-        <th>Email</th>
-        <th>Password</th>
-        <th>Remember Token</th>
+            <th>Email</th>
+        <th>Role </th>
+        
+
+            @if(Auth::user()->role_id <3)
             <th colspan="3">Action</th>
+            @endif
         </tr>
     </thead>
     <tbody>
     @foreach($users as $user)
         <tr>
-            <td>{!! $user->name !!}</td>
-            <td>{!! $user->role_id !!}</td>
+            <td>
+                <a href="{!! route('users.show',[$user->id]) !!}">
+                      <b>{!! $user->name !!}</b>  
+                </a>
+                
+            </td>
             <td>{!! $user->email !!}</td>
-            <td>{!! $user->password !!}</td>
-            <td>{!! $user->remember_token !!}</td>
+            <td>{!! $user->role['name'] !!}</td>
+            
+           
+            @if(Auth::user()->role_id <3)
             <td>
                 {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
@@ -26,6 +34,7 @@
                 </div>
                 {!! Form::close() !!}
             </td>
+            @endif
         </tr>
     @endforeach
     </tbody>
