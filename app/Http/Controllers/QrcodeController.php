@@ -32,8 +32,14 @@ class QrcodeController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->qrcodeRepository->pushCriteria(new RequestCriteria($request));
-        $qrcodes = $this->qrcodeRepository->all();
+        if(Auth::user()->role_id < 3)
+        {
+            $this->qrcodeRepository->pushCriteria(new RequestCriteria($request));
+            $qrcodes = $this->qrcodeRepository->all();
+        }else{
+            $qrcodes = QrcodeModel::where('user_id',Auth::user()->id)->get();//get a list
+        }
+        
 
         return view('qrcodes.index')
             ->with('qrcodes', $qrcodes);
@@ -63,7 +69,7 @@ class QrcodeController extends AppBaseController
         $qrcode = $this->qrcodeRepository->create($input);
         //save Qrcode to folder
         $file = 'qrcode/'.$qrcode->id.'.png';        
-        $newQrcode = QRCode::text("i love you honey <3")
+        $newQrcode = QRCode::text("med qrcode generator")
         ->setSize(4)
         ->setMargin(2)
         ->setOutfile($file)

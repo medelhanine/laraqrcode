@@ -30,18 +30,22 @@
 
         <hr>
         <!--verify if the user is can see the rest of the content -->
-        @if($qrcode->user_id == Auth::user()->id || Auth::user()->role_id < 3)
+        @if(!Auth::guest() && ($qrcode->user_id == Auth::user()->id || Auth::user()->role_id < 3))
 
     <!-- User Id Field -->
 <div class="form-group">
-        {!! Form::label('user_id', 'User Name:') !!}
-        <p>{!! $qrcode->user_id !!}</p>
+        {!! Form::label('user_id', 'User :') !!}
+        <p>{!! Auth::user()->email  !!}</p>
     </div>
     
     <!-- Website Field -->
     <div class="form-group">
         {!! Form::label('website', 'Website:') !!}
-        <p>{!! $qrcode->website !!}</p>
+        <p> 
+                <a href="{!! $qrcode->website !!}" target="_blank">
+            <b>{!! $qrcode->website !!}</b>
+                </a>
+        </p>
     </div>
     
  
@@ -49,7 +53,12 @@
     <!-- Callback Url Field -->
     <div class="form-group">
         {!! Form::label('callback_url', 'Callback Url:') !!}
-        <p>{!! $qrcode->callback_url !!}</p>
+        <p>
+            <a href="{!! $qrcode->callback_url !!}" target="_blank">
+                    <b>{!! $qrcode->callback_url !!}</b>
+            </a>
+            
+        </p>
     </div>
  
     <!-- Status Field -->
@@ -91,7 +100,7 @@
 
 </div>
 
-@if(Auth::user()->role_id <3 || $qrcode->user_id == Auth::user()->id)
+@if(!Auth::guest() && (Auth::user()->role_id <3 || $qrcode->user_id == Auth::user()->id))
 <div class="col-sm-12">
         <h3 class="text-center text-danger">Transcations done on this QRCode</h3>
         @include('transactions.table')

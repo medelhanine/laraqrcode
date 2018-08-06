@@ -23,9 +23,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 //give the right to logged in people only
 Route::group(['middleware'=>'auth'],function(){
 
-    Route::resource('qrcodes', 'QrcodeController');
+    Route::resource('qrcodes', 'QrcodeController')->except(['show']);
 
 Route::resource('roles', 'RoleController');
+
+Route::resource('accounts', 'AccountController')->except(['show']);
+
+// the ? mean it's optionnal
+Route::get('/accounts/show/{id?}','AccountController@show')->name('accounts.show');
+
+Route::resource('accountHistories', 'AccountHistoryController');
 
 Route::resource('transactions', 'TransactionController');
 
@@ -39,4 +46,18 @@ Route::group(['middleware'=>'checkmoderator'],function(){
 //only admins can access
 Route::resource('roles','RoleController')->middleware('checkadmin');
 
+
+Route::post('/accounts/apply_for_payout','AccountController@apply_for_payout')->name('accounts.apply_for_payout');
+Route::post('/accounts/mark_as_paid','AccountController@mark_as_paid')->name('accounts.mark_as_paid')->middleware('checkmoderator');
+
+Route::get('/accounts','AccountController@index')->name('accounts.index')->middleware('checkmoderator');
+
+Route::get('/accounts/create','AccountController@create')->name('accounts.create')->middleware('checkadmin');
+
+
+Route::get('/accountHistories','AccountHistoryController@index')->name('accountHistories.index')->middleware('checkmoderator');
+
+Route::get('/accountHistories/create','AccountHistoryController@create')->name('accountHistories.create')->middleware('checkadmin');
 });
+
+Route::get('/qrcodes/{id}','QrCodeController@show')->name('qrcodes.show');
