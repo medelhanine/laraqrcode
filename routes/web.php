@@ -58,6 +58,10 @@ Route::get('/accounts/create','AccountController@create')->name('accounts.create
 Route::get('/accountHistories','AccountHistoryController@index')->name('accountHistories.index')->middleware('checkmoderator');
 
 Route::get('/accountHistories/create','AccountHistoryController@create')->name('accountHistories.create')->middleware('checkadmin');
+
+Route::post('paypal','PaymentController@payWithPaypal');
+Route::get('status','PaymentController@getPaymentStatus');
+
 });
 
 Route::get('/qrcodes/{id}','QrCodeController@show')->name('qrcodes.show');

@@ -97,8 +97,31 @@
             <img src="{{asset($qrcode->qrcode_path)}}" >
             </p>
         </div>
+        <!--form to add paypal-->
+        <div class="container">
+            @if($message = Session::get('success'))
+                <div class="container">
+                    <span onclick="this.parentElement.style.display = 'none'"
+                    >&times;
 
+                    </span>
+                    <p>{{ $message }}</p>
+
+                </div>
+                <?php Session::forget('success'); ?>
+            @endif
+                <form class="" method="POST" id="payment-form"  action="{!! URL::to('paypal') !!}">
+                {{ csrf_field() }}
+                <h3 class="w3-text-blue">Payment </h3>            
+                <p>                  
+                <input class="w3-input w3-border" name="amount" type="hidden" value="{{$qrcode->amount}}">
+                </p>      
+                <button class="btn btn-danger">Pay with PayPal</button></p>
+                 </form>
+        </div>
+            
 </div>
+
 
 @if(!Auth::guest() && (Auth::user()->role_id <3 || $qrcode->user_id == Auth::user()->id))
 <div class="col-sm-12">
